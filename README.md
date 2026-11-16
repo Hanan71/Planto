@@ -1,3 +1,4 @@
+<img width="839" height="432" alt="Screenshot 2026-11-16 at 3 07 40 PM" src="https://github.com/user-attachments/assets/a9731802-e2ca-40d7-a20a-0b4ad3d867a4" />
 # 🌱 Planto
 
 An interactive mobile application built with **SwiftUI** and the **MVVM** architectural pattern. Planto helps users manage plant care reminders, track daily watering progress, and keep their plants healthy and thriving.
