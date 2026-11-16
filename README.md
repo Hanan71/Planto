@@ -1,6 +1,6 @@
-# 🌱 Plant Task
+# 🌱 Planto
 
-An interactive mobile application built with **SwiftUI** and the **MVVM** architectural pattern. Plant Task helps users manage plant care reminders, track daily watering progress, and keep their plants healthy and thriving.
+An interactive mobile application built with **SwiftUI** and the **MVVM** architectural pattern. Planto helps users manage plant care reminders, track daily watering progress, and keep their plants healthy and thriving.
 
 ## ✨ Features
 
@@ -25,12 +25,12 @@ Follow these steps to run the project locally on your Mac using Xcode.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Hanan71/Plant_Task.git
+git clone https://github.com/Hanan71/Planto.git
 ```
 
 ### 2. Open the Project
 
-Navigate to the project directory and open the `Plant Task.xcodeproj` file using Xcode.
+Navigate to the project directory and open the `Planto.xcodeproj` file using Xcode.
 
 ### 3. Select a Simulator
 
