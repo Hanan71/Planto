@@ -26,6 +26,11 @@ final class PlantViewModel: ObservableObject {
                               waterAmount: water, frequency: frequency)
         plants.append(plant)
         hasAddedPlant = true
+
+        // جديد: جدولة إشعار متكرر حسب خيار الأيام
+        NotificationManager.shared.scheduleRepeatingNotification(plantID: plant.id,
+                                                                 plantName: plant.name,
+                                                                 frequency: plant.frequency)
     }
 
     // تعديل نبتة موجودة (يحافظ على حالة السقي)
@@ -36,14 +41,25 @@ final class PlantViewModel: ObservableObject {
         plants[index].light = light
         plants[index].waterAmount = water
         plants[index].frequency = frequency
+
+        // جديد: نحدّث الإشعار بالاسم والأيام الجديدة
+        NotificationManager.shared.scheduleRepeatingNotification(plantID: id,
+                                                                 plantName: plants[index].name,
+                                                                 frequency: frequency)
     }
 
     func deletePlant(at offsets: IndexSet) {
+        // جديد: نلغي إشعارات النباتات المحذوفة
+        for index in offsets {
+            NotificationManager.shared.cancelNotification(plantID: plants[index].id)
+        }
         plants.remove(atOffsets: offsets)
     }
 
     // حذف نبتة معينة (من شاشة التعديل)
     func deletePlant(id: UUID) {
+        // جديد: نلغي إشعار النبتة المحذوفة
+        NotificationManager.shared.cancelNotification(plantID: id)
         plants.removeAll { $0.id == id }
     }
 
