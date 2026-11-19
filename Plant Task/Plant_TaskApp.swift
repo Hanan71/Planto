@@ -8,13 +8,14 @@
 import SwiftUI
 
 @main
-struct Plant_TaskApp: App {
+struct Plant_Plant_TaskApp: App { // ملاحظة: الكود الأصلي عندك Plant_TaskApp
     @StateObject private var viewModel = PlantViewModel()
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(viewModel)
+                .preferredColorScheme(.dark) // 👈 هذا السطر يفرض الوضع الليلي على التطبيق بالكامل
         }
     }
 }

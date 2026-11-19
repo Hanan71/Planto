@@ -11,20 +11,20 @@
     ],
   },
   "files": [
-    { "kind": "folder", "path": "Plant Task", "target-membership": [ "Plant Task" ] },
+    { "kind": "folder", "path": "Plant Task", "target-membership": [ "Planto" ] },
     {
       "kind": "group",
       "name": "Products",
       "children": [
-        { "path": "<PRODUCTS>/Plant Task.app", "id": "E307DF2E30A33294003135F4", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/Planto.app", "id": "E307DF2E30A33294003135F4", "type": "wrapper.application", "index": false },
       ],
     },
   ],
   "targets": [
     {
-      "name": "Plant Task",
+      "name": "Planto",
       "id": "E307DF2D30A33294003135F4",
-      "product": "Products/Plant Task.app",
+      "product": "Products/Planto.app",
       "product-type": "application",
       "build-phases": [
         "compile-sources",
@@ -32,8 +32,9 @@
         "resources",
       ],
       "build-settings": {
-        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "Planto",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
+        "ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS": "YES",
         "CODE_SIGN_STYLE": "Automatic",
         "CURRENT_PROJECT_VERSION": "1",
         "DEVELOPMENT_TEAM": "FKQJ725FDJ",
@@ -49,7 +50,7 @@
           "@executable_path/Frameworks",
         ],
         "MARKETING_VERSION": "1.0",
-        "PRODUCT_BUNDLE_IDENTIFIER": "team.Plant-Task",
+        "PRODUCT_BUNDLE_IDENTIFIER": "Plant-Task-1",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
         "SWIFT_APPROACHABLE_CONCURRENCY": "YES",

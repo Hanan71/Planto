@@ -56,14 +56,14 @@ struct NoRemindersView: View {
                         showingAddPlant = true
                     }) {
                         Image(systemName: "plus")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .frame(width: 56, height: 56)
-                            .background(Color(red: 0.2, green: 0.5, blue: 0.4))
-                            .clipShape(Circle())
-                            .shadow(radius: 4)
+                            .font(.system(size: 20, weight: .medium))
+                            .frame(width: 30, height: 30)
                     }
+                    // Liquid Glass
+                    .buttonStyle(.glassProminent)
+                    .buttonBorderShape(.circle)
+                    .controlSize(.large)
+                    .tint(Color(red: 0.2, green: 0.5, blue: 0.4))
                     .padding(.trailing, 24)
                     .padding(.bottom, 30)
                 }

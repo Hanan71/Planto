@@ -104,14 +104,14 @@ struct TodayReminderView: View {
                         showingAddPlant = true
                     }) {
                         Image(systemName: "plus")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .frame(width: 56, height: 56)
-                            .background(Color(red: 0.2, green: 0.5, blue: 0.4))
-                            .clipShape(Circle())
-                            .shadow(radius: 4)
+                            .font(.system(size: 20, weight: .medium))
+                            .frame(width: 30, height: 30)
                     }
+                    // Liquid Glass
+                    .buttonStyle(.glassProminent)
+                    .buttonBorderShape(.circle)
+                    .controlSize(.large)
+                    .tint(Color(red: 0.2, green: 0.5, blue: 0.4))
                     .padding(.trailing, 24)
                     .padding(.bottom, 30)
                 }
@@ -154,7 +154,7 @@ struct PlantRowView: View {
                 // جديد: أيقونة اللوكيشن جنب اسم الغرفة
                 HStack(spacing: 4) {
                     Image(systemName: "location")
-                    Text("in \(plant.room)")
+                    Text("in \(plant.room.rawValue)")
                 }
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -167,13 +167,13 @@ struct PlantRowView: View {
                 HStack(spacing: 10) {
                     // الشمس صفراء، والحدود تطلع بس لما يمر الماوس
                     Button(action: onChipTap) {
-                        ChipLabel(icon: "sun.max", text: plant.light, color: sunColor)
+                        ChipLabel(icon: plant.light.icon, text: plant.light.rawValue, color: sunColor)
                     }
                     .buttonStyle(ChipButtonStyle(borderColor: sunColor))
 
                     // الماء سماوي، والحدود تطلع بس لما يمر الماوس
                     Button(action: onChipTap) {
-                        ChipLabel(icon: "drop", text: plant.waterAmount, color: waterColor)
+                        ChipLabel(icon: "drop", text: plant.waterAmount.rawValue, color: waterColor)
                     }
                     .buttonStyle(ChipButtonStyle(borderColor: waterColor))
                 }
@@ -234,8 +234,8 @@ struct ChipButtonStyle: ButtonStyle {
 
 #Preview {
     let vm = PlantViewModel()
-    vm.addPlant(name: "Monstera", room: "Kitchen", light: "Full sun",
-                water: "20-50 ml", frequency: "Every day")
+    vm.addPlant(name: "Monstera", room: .kitchen, light: .fullSun,
+                water: .ml20to50, frequency: .everyDay)
     return TodayReminderView()
         .environmentObject(vm)
 }

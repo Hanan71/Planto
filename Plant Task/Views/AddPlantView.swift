@@ -18,34 +18,21 @@ struct AddPlantView: View {
     var plantToEdit: PlantItem? = nil
 
     @State private var plantName: String = ""
-    @State private var selectedRoom: String = "Bedroom"
-    @State private var selectedLight: String = "Full Sun"
-    @State private var wateringDays: String = "Every day"
-    @State private var waterAmount: String = "20-50 ml"
-
-    let rooms = ["Bedroom", "Living Room", "Kitchen", "Balcony", "Bathroom"]
-    // جديد: الحروف الكبيرة حسب التصميم
-    let lights = ["Full Sun", "Partial Sun", "Low Light"]
-    // جديد: أيقونة لكل خيار إضاءة (شمس، شمس جزئية، قمر)
-    let lightIcons = [
-        "Full Sun": "sun.max",
-        "Partial Sun": "sun.haze",
-        "Low Light": "moon"
-    ]
-    // جديد: أضفنا Every 10 days و Every 2 weeks
-    let frequencies = ["Every day", "Every 2 days", "Every 3 days", "Once a week", "Every 10 days", "Every 2 weeks"]
-    // جديد: أضفنا 200-300 ml
-    let amounts = ["20-50 ml", "50-100 ml", "100-200 ml", "200-300 ml"]
+    // تغيير: بدل String صارت enums (Room / LightLevel / WateringFrequency / WaterAmount)
+    @State private var selectedRoom: Room = .bedroom
+    @State private var selectedLight: LightLevel = .fullSun
+    @State private var wateringDays: WateringFrequency = .everyDay
+    @State private var waterAmount: WaterAmount = .ml20to50
 
     // نعبي الحقول ببيانات النبتة إذا كنا في وضع التعديل
     init(isEditing: Bool = false, plantToEdit: PlantItem? = nil) {
         self.isEditing = isEditing || plantToEdit != nil
         self.plantToEdit = plantToEdit
         _plantName = State(initialValue: plantToEdit?.name ?? "")
-        _selectedRoom = State(initialValue: plantToEdit?.room ?? "Bedroom")
-        _selectedLight = State(initialValue: plantToEdit?.light ?? "Full Sun")
-        _wateringDays = State(initialValue: plantToEdit?.frequency ?? "Every day")
-        _waterAmount = State(initialValue: plantToEdit?.waterAmount ?? "20-50 ml")
+        _selectedRoom = State(initialValue: plantToEdit?.room ?? .bedroom)
+        _selectedLight = State(initialValue: plantToEdit?.light ?? .fullSun)
+        _wateringDays = State(initialValue: plantToEdit?.frequency ?? .everyDay)
+        _waterAmount = State(initialValue: plantToEdit?.waterAmount ?? .ml20to50)
     }
 
     var body: some View {
@@ -68,29 +55,29 @@ struct AddPlantView: View {
                                 .multilineTextAlignment(.trailing)
                         }
                         .padding()
-                        .background(Color(red: 0.17, green: 0.17, blue: 0.17))
-                        .cornerRadius(16)
+                        // Liquid Glass
+                        .glassEffect(.regular, in: .rect(cornerRadius: 16))
                         .padding(.horizontal, 20)
 
                         // خيارات الغرفة والإضاءة
                         VStack(spacing: 0.5) {
-                            PickerRow(icon: "paperplane", title: "Room", selection: $selectedRoom, options: rooms)
+                            PickerRow(icon: "paperplane", title: "Room", selection: $selectedRoom, options: Room.allCases)
                             Divider().background(Color.gray.opacity(0.3))
-                            // جديد: نمرر أيقونات الإضاءة
-                            PickerRow(icon: "sun.max", title: "Light", selection: $selectedLight, options: lights, optionIcons: lightIcons)
+                            // أيقونة الإضاءة تجي من LightLevel.icon
+                            PickerRow(icon: "sun.max", title: "Light", selection: $selectedLight, options: LightLevel.allCases, optionIcon: { $0.icon })
                         }
-                        .background(Color(red: 0.17, green: 0.17, blue: 0.17))
-                        .cornerRadius(16)
+                        // Liquid Glass
+                        .glassEffect(.regular, in: .rect(cornerRadius: 16))
                         .padding(.horizontal, 20)
 
                         // خيارات أيام الري والماء
                         VStack(spacing: 0.5) {
-                            PickerRow(icon: "drop", title: "Watering Days", selection: $wateringDays, options: frequencies)
+                            PickerRow(icon: "drop", title: "Watering Days", selection: $wateringDays, options: WateringFrequency.allCases)
                             Divider().background(Color.gray.opacity(0.3))
-                            PickerRow(icon: "drop.fill", title: "Water", selection: $waterAmount, options: amounts)
+                            PickerRow(icon: "drop.fill", title: "Water", selection: $waterAmount, options: WaterAmount.allCases)
                         }
-                        .background(Color(red: 0.17, green: 0.17, blue: 0.17))
-                        .cornerRadius(16)
+                        // Liquid Glass
+                        .glassEffect(.regular, in: .rect(cornerRadius: 16))
                         .padding(.horizontal, 20)
 
                         // زر الحذف يظهر فقط في وضع التعديل
@@ -104,12 +91,13 @@ struct AddPlantView: View {
                             }) {
                                 Text("Delete Reminder")
                                     .font(.headline)
-                                    .foregroundColor(.red)
                                     .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(Color(red: 0.17, green: 0.17, blue: 0.17))
-                                    .cornerRadius(16)
                             }
+                            // Liquid Glass
+                            .buttonStyle(.glass)
+                            .buttonBorderShape(.capsule)
+                            .controlSize(.large)
+                            .tint(.red)
                             .padding(.horizontal, 20)
                             .padding(.top, 10)
                         }
@@ -119,30 +107,24 @@ struct AddPlantView: View {
             }
             .navigationTitle("Set Reminder")
             .navigationBarTitleDisplayMode(.inline)
+            // ملاحظة: حذفنا toolbarBackground عشان شريط التنقل يظهر بتأثير Liquid Glass
             .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(Color(red: 0.1, green: 0.1, blue: 0.1), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 // زر الإغلاق (X)
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
+                    Button(role: .close) {
                         // التحويل لـ NoReminders فقط عند الإضافة، مو التعديل
                         if !isEditing {
                             viewModel.skipToEmptyState()
                         }
                         dismiss()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.white)
-                            .padding(8)
-                            .background(Color.gray.opacity(0.3))
-                            .clipShape(Circle())
                     }
+                    .tint(.primary)
                 }
 
                 // زر الحفظ (Checkmark) - زر واحد فقط
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
+                    Button(role: .confirm) {
                         // إذا تعديل نحدّث النبتة، وإذا إضافة نضيفها
                         if let plant = plantToEdit {
                             viewModel.updatePlant(id: plant.id,
@@ -157,17 +139,13 @@ struct AddPlantView: View {
                                                light: selectedLight,
                                                water: waterAmount,
                                                frequency: wateringDays)
+                            // الإشعار التجريبي (بعد 5 ثواني) - باقي كما هو
                             NotificationManager.shared.schedulePlantNotification(
                                 plantName: plantName.isEmpty ? "plant" : plantName)
                         }
                         dismiss()
-                    }) {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.white)
-                            .padding(8)
-                            .background(Color(red: 0.2, green: 0.5, blue: 0.4))
-                            .clipShape(Circle())
                     }
+                    .tint(Color(red: 0.2, green: 0.5, blue: 0.4))
                 }
             }
         }

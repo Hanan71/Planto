@@ -5,6 +5,7 @@
 //  Created by HANAN ABDALLAH on 12/11/2026.
 //
 
+
 import SwiftUI
 import Combine
 
@@ -19,7 +20,7 @@ final class PlantViewModel: ObservableObject {
         return Double(wateredCount) / Double(plants.count)
     }
 
-    func addPlant(name: String, room: String, light: String, water: String, frequency: String) {
+    func addPlant(name: String, room: Room, light: LightLevel, water: WaterAmount, frequency: WateringFrequency) {
         let plant = PlantItem(name: name.isEmpty ? "Plant" : name,
                               room: room, light: light,
                               waterAmount: water, frequency: frequency)
@@ -28,7 +29,7 @@ final class PlantViewModel: ObservableObject {
     }
 
     // تعديل نبتة موجودة (يحافظ على حالة السقي)
-    func updatePlant(id: UUID, name: String, room: String, light: String, water: String, frequency: String) {
+    func updatePlant(id: UUID, name: String, room: Room, light: LightLevel, water: WaterAmount, frequency: WateringFrequency) {
         guard let index = plants.firstIndex(where: { $0.id == id }) else { return }
         plants[index].name = name.isEmpty ? "Plant" : name
         plants[index].room = room

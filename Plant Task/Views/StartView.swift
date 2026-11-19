@@ -14,7 +14,7 @@ struct StartView: View {
             Color.black
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
+            VStack(spacing: 16) {
                 HStack {
                     Text("My Plants 🌱")
                         .font(.largeTitle)
@@ -23,13 +23,23 @@ struct StartView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 20)
+                .padding(.top, 0)
 
-                Spacer()
+                Divider()
+                    .background(Color.gray.opacity(0.3))
+                    .padding(.horizontal, 20)
+
+                // مسافة رفع الصورة للأعلى
+                Spacer().frame(height: 30)
 
                 Image("plant_placeholder")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 180, height: 180)
+                    .frame(width: 240, height: 240)
+                    .padding(.leading, 0)
+
+                // 💡 أضفنا هذه المسافة هنا لتحت الصورة وتنزيل الكلام شوي عن
+                Spacer().frame(height: 20)
 
                 VStack(spacing: 8) {
                     Text("Start your plant journey!")
@@ -46,7 +56,7 @@ struct StartView: View {
 
                 Spacer()
 
-                // زر الانتقال لشاشة Set Reminder
+                // زر الانتقال لشاشة Set Reminder (Liquid Glass)
                 Button(action: {
                     showingAddPlant = true
                 }) {
@@ -55,11 +65,16 @@ struct StartView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(red: 0.2, green: 0.5, blue: 0.4))
-                        .cornerRadius(25)
+                        .glassEffect(
+                            .regular
+                                .tint(Color(red: 0.2, green: 0.5, blue: 0.4))
+                                .interactive(),
+                            in: .capsule
+                        )
                 }
+                .buttonStyle(.plain)
                 .padding(.horizontal, 32)
-                .padding(.bottom, 40)
+                .padding(.bottom, 160)
             }
         }
         .sheet(isPresented: $showingAddPlant) {
